@@ -1,12 +1,13 @@
 ﻿namespace FakeItEasy.VisualBasic
 {
+    using System;
+    using FakeItEasy.Api;
     using FakeItEasy.Configuration;
-    using FakeItEasy.Core;
 
     /// <summary>
     /// Lets you specify options for the next call to a fake object.
     /// </summary>
-    public static class ThisCall
+    public static class NextCall
     {
         /// <summary>
         /// Specifies options for the next call to the specified fake object. The next call will
@@ -28,9 +29,9 @@
             return CreateBuilder(recordedRule, fakeObject);
         }
 
-        private static RuleBuilder CreateBuilder(RecordedCallRule rule, FakeObject fakeObject)
+        private static VisualBasicRuleBuilder CreateBuilder(RecordedCallRule rule, FakeObject fakeObject)
         {
-            var factory = ServiceLocator.Current.Resolve<RuleBuilder.Factory>();
+            var factory = ServiceLocator.Current.Resolve<VisualBasicRuleBuilder.Factory>();
             return factory.Invoke(rule, fakeObject);
         }
 

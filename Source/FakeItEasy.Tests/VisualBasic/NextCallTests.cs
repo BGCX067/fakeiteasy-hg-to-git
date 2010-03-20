@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using FakeItEasy.VisualBasic;
-using FakeItEasy.Core;
-using FakeItEasy.Assertion;
-using System.Linq.Expressions;
-using FakeItEasy.Configuration;
-
-namespace FakeItEasy.Tests.VisualBasic
+﻿namespace FakeItEasy.Tests.VisualBasic
 {
+    using FakeItEasy.Api;
+    using FakeItEasy.Configuration;
+    using FakeItEasy.VisualBasic;
+    using NUnit.Framework;
+    using FakeItEasy.Assertion;
+
     [TestFixture]
-    public class ThisCallTests
+    public class NextCallTests
         : ConfigurableServiceLocatorTestBase
     {
         private IConfigurationFactory builderFactory;
@@ -26,7 +21,7 @@ namespace FakeItEasy.Tests.VisualBasic
         public void To_should_be_properly_guarded()
         {
             NullGuardedConstraint.Assert(() => 
-                ThisCall.To(A.Fake<IFoo>()));
+                NextCall.To(A.Fake<IFoo>()));
         }
 
         [Test]
@@ -44,18 +39,30 @@ namespace FakeItEasy.Tests.VisualBasic
             A.CallTo(() => recordingRuleFactory.Create<IFoo>(fake, recordedRule)).Returns(recordingRule);
             this.StubResolve<IRecordingCallRuleFactory>(recordingRuleFactory);
 
-            var builder = new RuleBuilder(A.Fake<BuildableCallRule>(), fake, x => null);
-            this.StubResolve<RuleBuilder.Factory>((r, f) =>
+            var builder = this.CreateFakeVisualBasicRuleBuilder();
+            this.StubResolve<VisualBasicRuleBuilder.Factory>((r, f) =>
                 {
                     return r.Equals(recordedRule) && f.Equals(fake) ? builder : null;
                 });
             
             // Act
-            var result = ThisCall.To(foo);
+            var result = NextCall.To(foo);
 
             // Assert
             Assert.That(result, Is.SameAs(builder));
             Assert.That(fake.Rules, Has.Some.SameAs(recordingRule));
+        }
+
+        private VisualBasicRuleBuilder CreateFakeVisualBasicRuleBuilder()
+        {
+            var rule = A.Fake<RecordedCallRule>();
+
+            var wrapped = A.Fake<RuleBuilder>(x => x.WithArgumentsForConstructor(() =>
+                new RuleBuilder(rule, A.Fake<FakeObject>(), c => A.Fake<FakeAsserter>())));
+            var result = A.Fake<VisualBasicRuleBuilder>(x => x.WithArgumentsForConstructor(() =>
+                new VisualBasicRuleBuilder(rule, wrapped)));
+
+            return result;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace FakeItEasy.Tests.Core.Creation
             
             // Act
             this.creator.CreateFake<Foo>(x => x.WithArgumentsForConstructor(() => new Foo(serviceProvider)));
-
+            
             // Assert
             A.CallTo(() => this.fakeAndDummyManager.CreateFake(A<Type>.Ignored, A<FakeOptions>.That.HasArgumentsForConstructor(new object[] { serviceProvider }))).MustHaveHappened();
         }
@@ -42,7 +42,7 @@ namespace FakeItEasy.Tests.Core.Creation
         public void CreateFake_should_pass_all_interfaces_from_implements_to_fake_and_dummy_manager()
         {
             // Arrange
-
+            
             // Act
             this.creator.CreateFake<IFoo>(x => x.Implements(typeof(IFormatProvider)).Implements(typeof(IFormattable)));
             
@@ -176,6 +176,31 @@ namespace FakeItEasy.Tests.Core.Creation
 
             // Assert
             A.CallTo(() => this.fakeAndDummyManager.CreateFake(A<Type>.Ignored, A<FakeOptions>.That.HasArgumentsForConstructor(constructorArguments))).MustHaveHappened();
+        }
+
+        [Test]
+        public void CollectionOfFake_should_return_collection_where_all_items_are_fakes()
+        {
+            // Arrange
+
+            // Act
+            var result = this.creator.CollectionOfFake<IFoo>(10);
+
+            // Assert
+            Assert.That(result, Has.All.InstanceOf<IFoo>().And.All.InstanceOf<IFakedProxy>());
+        }
+
+        [TestCase(2)]
+        [TestCase(10)]
+        public void CollectionOfFake_should_return_collection_with_the_number_of_items_specified(int numberOfFakes)
+        {
+            // Arrange
+
+            // Act
+            var result = this.creator.CollectionOfFake<IFoo>(numberOfFakes);
+
+            // Assert
+            Assert.That(result, Has.Count.EqualTo(numberOfFakes));
         }
 
         private void ConfigureDefaultValuesForFakeAndDummyManager()

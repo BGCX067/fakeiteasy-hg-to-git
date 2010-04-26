@@ -67,6 +67,9 @@
     <Compile Include="Core\FakeAsserterTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ArgumentConstraintExtensions\ComparableGreaterThanTests.cs" />
+    <Compile Include="ArgumentConstraintExtensions\StringIsNullOrEmptyTests.cs" />
+    <Compile Include="ArgumentConstraintExtensions\StringStartsWithTests.cs" />
     <Compile Include="Core\CallInterceptedEventArgsTests.cs" />
     <Compile Include="Core\Creation\DefaultFakeCreatorTests.cs" />
     <Compile Include="Core\DefaultFakeWrapperConfiguratorTests.cs" />
@@ -95,7 +98,7 @@
     <Compile Include="Expressions\ArgumentConstraintTests.cs" />
     <Compile Include="Expressions\ExpressionParserTests.cs" />
     <Compile Include="Expressions\NotArgumentValidatorScopeTests.cs" />
-    <Compile Include="Expressions\RootValidationsTests.cs" />
+    <Compile Include="Expressions\RootArgumentConstraintScopeTests.cs" />
     <Compile Include="Foo.cs" />
     <Compile Include="LowerBoundHappenedTests.cs" />
     <Compile Include="RepeatedTests.cs" />

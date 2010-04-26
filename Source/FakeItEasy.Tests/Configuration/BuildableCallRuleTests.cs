@@ -73,6 +73,7 @@ namespace FakeItEasy.Tests.Configuration
         [Test]
         public void Apply_should_set_ref_and_out_parameters_when_specified()
         {
+            // Arrange
             var rule = this.CreateRule();
 
             rule.OutAndRefParametersValues = new object[] { 1, "foo" };
@@ -82,6 +83,7 @@ namespace FakeItEasy.Tests.Configuration
             
             A.CallTo(() => call.Method).Returns(typeof(IOutAndRef).GetMethod("OutAndRef"));
 
+            // Act
             rule.Apply(call);
 
             A.CallTo(() => call.SetArgumentValue(1, 1)).MustHaveHappened();

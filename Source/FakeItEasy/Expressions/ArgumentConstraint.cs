@@ -2,6 +2,7 @@ namespace FakeItEasy.Expressions
 {
     using System;
     using FakeItEasy.Core;
+    using FakeItEasy.Expressions.ArgumentConstraints;
 
     /// <summary>
     /// Provides static methods for the ArgumentConstraint{T} class.
@@ -76,6 +77,8 @@ namespace FakeItEasy.Expressions
         /// <param name="scope">The scope of the constraint.</param>
         protected ArgumentConstraint(ArgumentConstraintScope<T> scope)
         {
+            Guard.AgainstNull(scope, "scope");
+
             this.Scope = scope;
         }
 
@@ -141,13 +144,23 @@ namespace FakeItEasy.Expressions
         protected abstract string Description { get; }
 
         /// <summary>
-        /// Converst a constraint to the the type of the constrained argument.
+        /// Converts a constraint to the the type of the constrained argument.
         /// </summary>
         /// <param name="constraint"></param>
         /// <returns></returns>
         public static implicit operator T(ArgumentConstraint<T> constraint)
         {
             return constraint.Argument;
+        }
+
+        /// <summary>
+        /// Converts an argument to an ArgumentConstraint that evaluates equality.
+        /// </summary>
+        /// <param name="argument">The argument to convert.</param>
+        /// <returns>An equality constraint.</returns>
+        public static implicit operator ArgumentConstraint<T>(T argument)
+        {
+            return new EqualityArgumentConstraint<T>(new RootArgumentConstraintScope<T>(), argument);
         }
 
         /// <summary>
@@ -204,7 +217,7 @@ namespace FakeItEasy.Expressions
             private ArgumentConstraint<T> second;
 
             public OrConstraint(ArgumentConstraint<T> first, ArgumentConstraint<T> second)
-                : base(new RootValidations<T>())
+                : base(new RootArgumentConstraintScope<T>())
             {
                 this.first = first;
                 this.second = second;

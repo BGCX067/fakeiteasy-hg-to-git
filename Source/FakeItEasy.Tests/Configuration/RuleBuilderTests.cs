@@ -254,7 +254,7 @@
             Action<IFakeObjectCall> action = x => { };
 
             returnConfig.Invokes(action);
-
+           
             A.CallTo(() => this.builder.RuleBeingBuilt.Actions.Add(action)).MustHaveHappened();
         }
 

@@ -4,6 +4,7 @@ namespace FakeItEasy.Tests.Expressions
     using FakeItEasy.Expressions;
     using FakeItEasy.Tests.Expressions.ArgumentConstraints;
     using System;
+    using FakeItEasy.Expressions.ArgumentConstraints;
 
     [TestFixture]
     public class ArgumentConstraintTests
@@ -19,7 +20,7 @@ namespace FakeItEasy.Tests.Expressions
             A.CallTo(() => this.scope.ResultOfChildConstraintIsValid(true)).Returns(true);
             A.CallTo(() => this.scope.ResultOfChildConstraintIsValid(false)).Returns(false);
 
-            this.Constraint = new TestableConstraint(this.scope);
+            this.constraint = new TestableConstraint(this.scope);
         }
 
         private TestableConstraint CreateValidator()
@@ -302,7 +303,7 @@ namespace FakeItEasy.Tests.Expressions
         }
 
         [Test]
-        public void Validator_should_convert_to_argument_type_implicitly()
+        public void Constraint_should_convert_to_argument_type_implicitly()
         {
             // Arrange
             var validator = this.CreateValidator();
@@ -312,6 +313,20 @@ namespace FakeItEasy.Tests.Expressions
 
             // Assert
             Assert.That(result, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Argument_should_convert_to_equality_constraint_implicitly()
+        {
+            // Arrange
+
+            // Act
+            ArgumentConstraint<string> constraint = "test";
+
+            // Assert
+            Assert.That(constraint, Is.InstanceOf<EqualityArgumentConstraint<string>>());
+            Assert.That(constraint.IsValid("test"), Is.True);
+            Assert.That(constraint.IsValid("something else"), Is.False);
         }
 
         [Test]
@@ -328,7 +343,7 @@ namespace FakeItEasy.Tests.Expressions
             });
 
             // Assert
-            Assert.That(scopePassedToDelegate, Is.InstanceOf<RootValidations<string>>());
+            Assert.That(scopePassedToDelegate, Is.InstanceOf<RootArgumentConstraintScope<string>>());
         }
 
         [Test]
@@ -355,12 +370,24 @@ namespace FakeItEasy.Tests.Expressions
                 A<string>.That.StartsWith("foo").Or(x => x.Contains("bar")));
         }
 
+        [Test]
+        public void Constructor_should_be_null_guarded()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+            NullGuardedConstraint.Assert(() =>
+                new TestableConstraint(new RootArgumentConstraintScope<int>()));
+        }
+
         private class TestableConstraint
             : ArgumentConstraint<int>
         {
             public bool EvaluateReturnValue = true;
 
-            public TestableConstraint(ArgumentConstraintScope<int> validations) : base(validations) { }
+            public TestableConstraint(ArgumentConstraintScope<int> scope) : base(scope) { }
 
             public string DescriptionToUse = "";
 
@@ -388,6 +415,11 @@ namespace FakeItEasy.Tests.Expressions
         protected override string ExpectedDescription
         {
             get { return ""; }
+        }
+
+        protected override ArgumentConstraint<int> CreateConstraint(ArgumentConstraintScope<int> scope)
+        {
+            return new TestableConstraint(scope);
         }
     }
 }

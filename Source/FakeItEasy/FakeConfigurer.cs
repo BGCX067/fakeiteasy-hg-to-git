@@ -1,15 +1,15 @@
-namespace FakeItEasy.Core
+namespace FakeItEasy
 {
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
     /// <summary>
     /// Provides the base implementation for the IFakeConfigurator-interface.
     /// </summary>
     /// <typeparam name="T">The type of fakes the configurator can configure.</typeparam>
-    public abstract class FakeConfigurator<T>
-        : IFakeConfigurator
+    public abstract class FakeConfigurer<T>
+        : IFakeConfigurer
     {
         /// <summary>
         /// The type the instance provides configuration for.
@@ -24,7 +24,7 @@ namespace FakeItEasy.Core
         /// Applies the configuration for the specified fake object.
         /// </summary>
         /// <param name="fakeObject">The fake object to configure.</param>
-        void IFakeConfigurator.ConfigureFake(object fakeObject)
+        void IFakeConfigurer.ConfigureFake(object fakeObject)
         {
             Guard.AgainstNull(fakeObject, "fakeObject");
 

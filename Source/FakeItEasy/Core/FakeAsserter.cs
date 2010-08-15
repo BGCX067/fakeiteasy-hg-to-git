@@ -6,12 +6,12 @@ namespace FakeItEasy.Core
     using System.IO;
     using System.Linq;
 
-    internal class FakeAsserter
+    internal class FakeAsserter : FakeItEasy.Core.IFakeAsserter
     {
-        private IEnumerable<IFakeObjectCall> calls;
+        protected IEnumerable<IFakeObjectCall> calls;
         private CallWriter callWriter;
 
-        public delegate FakeAsserter Factory(IEnumerable<IFakeObjectCall> calls);
+        public delegate IFakeAsserter Factory(IEnumerable<IFakeObjectCall> calls);
         
         public FakeAsserter(IEnumerable<IFakeObjectCall> calls, CallWriter callWriter)
         {

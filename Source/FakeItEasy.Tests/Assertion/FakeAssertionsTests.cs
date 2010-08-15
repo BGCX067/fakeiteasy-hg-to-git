@@ -18,10 +18,10 @@ namespace FakeItEasy.Tests.Assertion
     [TestFixture]
     public class FakeAssertionsTests
     {
-        private FakeObject fake;
+        private FakeManager fake;
         private FakeAssertions<IFoo> assertions;
         private IExpressionCallMatcherFactory callMatcherFactory;
-        private FakeAsserter fakeAsserter;
+        private IFakeAsserter fakeAsserter;
         private FakeAsserter.Factory fakeAsserterFactory;
         private IEnumerable<IFakeObjectCall> argumentToFakeAsserterFactory;
         private ExpressionCallMatcher matcher;
@@ -29,9 +29,9 @@ namespace FakeItEasy.Tests.Assertion
         [SetUp]
         public void SetUp()
         {
-            this.fake = Fake.GetFakeObject(A.Fake<IFoo>());
+            this.fake = Fake.GetFakeManager(A.Fake<IFoo>());
             
-            this.fakeAsserter = A.Fake<FakeAsserter>();
+            this.fakeAsserter = A.Fake<IFakeAsserter>();
             
             this.matcher = A.Fake<ExpressionCallMatcher>(x => x.WithArgumentsForConstructor(() =>
                 new ExpressionCallMatcher(
@@ -40,7 +40,7 @@ namespace FakeItEasy.Tests.Assertion
                     ServiceLocator.Current.Resolve<MethodInfoManager>())));
 
             this.callMatcherFactory = A.Fake<IExpressionCallMatcherFactory>();
-            A.CallTo(() => this.callMatcherFactory.CreateCallMathcer(A<LambdaExpression>.Ignored)).Returns(() => this.matcher);
+            A.CallTo(() => this.callMatcherFactory.CreateCallMathcer(A<LambdaExpression>.Ignored)).ReturnsLazily(x => this.matcher);
 
             this.fakeAsserterFactory = x =>
                 {

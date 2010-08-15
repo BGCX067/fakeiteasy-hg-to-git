@@ -65,6 +65,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs" />
     <Compile Include="..\VersionAssemblyInfo.cs" />
     <Compile Include="AnyTests.cs" />
+    <Compile Include="Core\EnumerableOfFakeCallsDefinition.cs" />
     <Compile Include="Core\FakeAsserterTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -91,8 +92,12 @@
     <Compile Include="Configuration\StartConfigurationTests.cs" />
     <Compile Include="Core\DummyDefinitionTests.cs" />
     <Compile Include="Core\DynamicContainerTests.cs" />
+    <Compile Include="Core\OrderedFakeAsserterFactoryTests.cs" />
+    <Compile Include="Core\OrderedFakeAsserterTests.cs" />
     <Compile Include="DummyExceptionContractTests.cs" />
-    <Compile Include="DynamicProxy\DynamicProxyProxyGeneratorTests.cs" />
+    <Compile Include="Core\Creation\DefaultConstructorResolverTests.cs" />
+    <Compile Include="Core\Creation\DefaultDummyValueCreatorTests.cs" />
+    <Compile Include="DynamicProxy\CastleDynamicProxyGeneratorTests.cs" />
     <Compile Include="ExceptionContractTests.cs" />
     <Compile Include="Expressions\ArgumentConstraintScopeTests.cs" />
     <Compile Include="Expressions\ArgumentConstraints\EnumerableContainsConstraintTests.cs" />
@@ -120,11 +125,11 @@
     <Compile Include="IoC\DictionaryContainerTests.cs" />
     <Compile Include="TestCases.cs" />
     <Compile Include="TestHelpers\ExpressionHelper.cs" />
-    <Compile Include="Core\FakeObjectTests.cs" />
+    <Compile Include="Core\FakeManagerTests.cs" />
     <Compile Include="Core\HelpersTests.cs" />
     <Compile Include="Core\NullFakeObjectContainerTests.cs" />
     <Compile Include="CustomArgumentConstraints.cs" />
-    <Compile Include="DynamicProxy\InvocationCallAdapterTests.cs" />
+    <Compile Include="DynamicProxy\CastleInvocationCallAdapterTests.cs" />
     <Compile Include="Core\WrappedObjectRuleTests.cs" />
     <Compile Include="ArgumentCollectionTests.cs" />
     <Compile Include="ATests.cs" />

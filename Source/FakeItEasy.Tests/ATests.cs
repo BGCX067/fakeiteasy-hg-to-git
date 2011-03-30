@@ -2,11 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using FakeItEasy.Configuration;
+    using FakeItEasy.Core;
     using FakeItEasy.Creation;
     using FakeItEasy.Expressions;
     using NUnit.Framework;
+    using System.Text;
 
     [TestFixture]
     public class ATests
@@ -58,7 +61,7 @@
 
             Action<IFakeOptionsBuilder<IFoo>> options = x => { };
             A.CallTo(() => this.fakeCreator.CreateFake<IFoo>(options)).Returns(fake);
-            
+
             // Act
             var result = A.Fake<IFoo>(options);
 
@@ -108,7 +111,7 @@
             this.configurationManager = A.Fake<IFakeConfigurationManager>(x => x.Wrapping(ServiceLocator.Current.Resolve<IFakeConfigurationManager>()));
             this.StubResolve<IFakeConfigurationManager>(this.configurationManager);
         }
-        
+
         [Test]
         public void CallTo_with_void_call_should_return_configuration_from_configuration_manager()
         {
@@ -156,7 +159,7 @@
             var validations = A<string>.That;
 
             // Assert
-            Assert.That(validations, Is.InstanceOf<RootArgumentConstraintScope<string>>());
+            Assert.That(validations, Is.InstanceOf<IArgumentConstraintManager<string>>());
         }
 
         [Test]
@@ -164,9 +167,9 @@
             [Values(null, "", "hello world", "foo")] string argument)
         {
             // Arrange
-
+            
             // Act
-            var isValid = A<string>.Ignored.IsValid(argument);
+            var isValid = GetIgnoredConstraint<string>().IsValid(argument);
 
             // Assert
             Assert.That(isValid, Is.True);
@@ -176,24 +179,19 @@
         public void Ignored_should_return_validator_with_correct_description()
         {
             // Arrange
-            
+            var result = new StringBuilder();
+
             // Act
-            var description = A<string>.Ignored.ToString();
+            GetIgnoredConstraint<string>().WriteDescription(new StringBuilderOutputWriter(result));
 
             // Assert
-            Assert.That(description, Is.EqualTo("<Ignored>"));
+            Assert.That(result.ToString(), Is.EqualTo("<Ignored>"));
         }
 
-        [Test]
-        public void Ignored_should_return_validator_with_root_validations_set()
+        private static IArgumentConstraint GetIgnoredConstraint<T>()
         {
-            // Arrange
-
-            // Act
-            var validator = A<string>.Ignored;
-
-            // Assert
-            Assert.That(validator.Scope, Is.InstanceOf<RootArgumentConstraintScope<string>>());
+            var trap = ServiceLocator.Current.Resolve<IArgumentConstraintTrapper>();
+            return trap.TrapConstraints(() => { var ignored = A<string>.Ignored; }).Single();
         }
     }
 }

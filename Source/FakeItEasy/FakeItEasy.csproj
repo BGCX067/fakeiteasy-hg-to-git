@@ -171,6 +171,7 @@
     <Compile Include="Configuration\StartConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\ArgumentConstraintTrap.cs" />
     <Compile Include="Core\ArgumentInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -186,6 +187,7 @@
     <Compile Include="Core\CallWriter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\DefaultArgumentConstraintManager.cs" />
     <Compile Include="Core\DefaultExceptionThrower.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -248,6 +250,9 @@
     <Compile Include="Core\IArgumentConstraint.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\IArgumentConstraintManager.cs" />
+    <Compile Include="Core\IArgumentConstraintManagerFactory.cs" />
+    <Compile Include="Core\IArgumentConstraintTrapper.cs" />
     <Compile Include="Core\ICallCollectionAndCallMatcherAccessor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -307,6 +312,7 @@
     <Compile Include="Core\IInterceptedFakeObjectCall.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\IOutputWriter.cs" />
     <Compile Include="Core\IWritableFakeObjectCall.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -388,22 +394,13 @@
     <Compile Include="Creation\ResolvedConstructor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Expressions\ArgumentConstraint.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Expressions\ArgumentConstraintFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Expressions\ArgumentConstraintScope.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Expressions\ArgumentConstraints\EnumerableContainsConstraint.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Expressions\ArgumentConstraints\EqualityArgumentConstraint.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Expressions\CallExpressionParser.cs" />
+    <Compile Include="Expressions\ExpressionArgumentConstraintFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Expressions\ExpressionCallMatcher.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -420,13 +417,7 @@
     <Compile Include="Expressions\IExpressionParser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Expressions\NotArgumentConstraintScope.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Expressions\ParsedCallExpression.cs" />
-    <Compile Include="Expressions\RootArgumentConstraintScope.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ExtensionSyntax\Full\FullExtensionSyntax.cs">
       <SubType>Code</SubType>
     </Compile>

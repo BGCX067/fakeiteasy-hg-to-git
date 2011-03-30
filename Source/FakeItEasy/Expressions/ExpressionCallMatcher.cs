@@ -24,7 +24,7 @@
         /// <param name="callSpecification">The call specification.</param>
         /// <param name="constraintFactory">The constraint factory.</param>
         /// <param name="methodInfoManager">The method infor manager to use.</param>
-        public ExpressionCallMatcher(LambdaExpression callSpecification, ArgumentConstraintFactory constraintFactory, MethodInfoManager methodInfoManager, ICallExpressionParser callExpressionParser)
+        public ExpressionCallMatcher(LambdaExpression callSpecification, ExpressionArgumentConstraintFactory constraintFactory, MethodInfoManager methodInfoManager, ICallExpressionParser callExpressionParser)
         {
             this.methodInfoManager = methodInfoManager;
             
@@ -81,7 +81,7 @@
             this.argumentConstraints = Enumerable.Repeat<IArgumentConstraint>(new PredicatedArgumentConstraint(), numberOfValdiators);
         }
 
-        private static IEnumerable<IArgumentConstraint> GetArgumentConstraints(IEnumerable<Expression> argumentExpressions, ArgumentConstraintFactory constraintFactory)
+        private static IEnumerable<IArgumentConstraint> GetArgumentConstraints(IEnumerable<Expression> argumentExpressions, ExpressionArgumentConstraintFactory constraintFactory)
         {
             if (argumentExpressions != null)
             {
@@ -114,7 +114,7 @@
                     firstArgument = false;
                 }
 
-                result.Append(constraint.ConstraintDescription);
+                constraint.WriteDescription(new StringBuilderOutputWriter(result));
             }
 
             result.Append(")");
@@ -154,6 +154,11 @@
             public override string ToString()
             {
                 return "<Predicated>";
+            }
+
+            public void WriteDescription(IOutputWriter writer)
+            {
+                writer.Write(this.ConstraintDescription);
             }
         }
     }

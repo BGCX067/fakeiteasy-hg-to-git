@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
-    public class EqualToConstraintTests
+    internal class EqualToConstraintTests
         : ArgumentConstraintTestBase<object>
     {
-        protected override void CreateConstraint(FakeItEasy.Core.IArgumentConstraintManager<object> scope)
+        protected override void CreateConstraint(IArgumentConstraintManager<object> scope)
         {
             scope.IsEqualTo(10);
         }

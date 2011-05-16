@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace FakeItEasy.Tests.ArgumentValidationExtensions
 {
     [TestFixture]
-    public class IsNullTests
+    internal class IsNullTests
         : ArgumentConstraintTestBase<object>
     {
         protected override IEnumerable<object> ValidValues
@@ -22,7 +22,7 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
             get { return "NULL"; }
         }
 
-        protected override void CreateConstraint(FakeItEasy.Core.IArgumentConstraintManager<object> scope)
+        protected override void CreateConstraint(IArgumentConstraintManager<object> scope)
         {
             scope.IsNull();
         }

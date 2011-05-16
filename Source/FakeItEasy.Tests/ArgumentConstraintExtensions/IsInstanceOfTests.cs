@@ -5,12 +5,12 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
     using NUnit.Framework;
 
     [TestFixture]
-    public class IsInstanceOfTests
+    internal class IsInstanceOfTests
         : ArgumentConstraintTestBase<object>
     {
         protected override IEnumerable<object> InvalidValues
         {
-            get { return new object[] { new object(), 1, "foo" }; }
+            get { return new object[] { new object(), 1, "foo", null }; }
         }
 
         protected override IEnumerable<object> ValidValues
@@ -23,7 +23,7 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
             get { return "Instance of System.DateTime"; }
         }
 
-        protected override void CreateConstraint(FakeItEasy.Core.IArgumentConstraintManager<object> scope)
+        protected override void CreateConstraint(IArgumentConstraintManager<object> scope)
         {
             scope.IsInstanceOf(typeof(DateTime));
         }

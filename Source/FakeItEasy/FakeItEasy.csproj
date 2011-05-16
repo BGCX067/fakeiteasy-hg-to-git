@@ -156,6 +156,7 @@
     <Compile Include="Configuration\IVoidConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Configuration\IWhereConfiguration.cs" />
     <Compile Include="Configuration\RecordedCallRule.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -250,8 +251,9 @@
     <Compile Include="Core\IArgumentConstraint.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\IArgumentConstraintManager.cs" />
-    <Compile Include="Core\IArgumentConstraintManagerFactory.cs" />
+    <Compile Include="DefaultOutputWriter.cs" />
+    <Compile Include="IArgumentConstraintManager.cs" />
+    <Compile Include="IArgumentConstraintManagerFactory.cs" />
     <Compile Include="Core\IArgumentConstraintTrapper.cs" />
     <Compile Include="Core\ICallCollectionAndCallMatcherAccessor.cs">
       <SubType>Code</SubType>
@@ -312,7 +314,7 @@
     <Compile Include="Core\IInterceptedFakeObjectCall.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\IOutputWriter.cs" />
+    <Compile Include="IOutputWriter.cs" />
     <Compile Include="Core\IWritableFakeObjectCall.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -449,6 +451,7 @@
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="MustBeImplementedException.cs" />
+    <Compile Include="OutputWriter.cs" />
     <Compile Include="Repeated.cs" />
     <Compile Include="Recorders.cs" />
     <Compile Include="IFileSystem.cs" />
@@ -487,6 +490,7 @@
     <Compile Include="SmellyAttribute.cs" />
     <Compile Include="NextCall.cs" />
     <Compile Include="Tuple.cs" />
+    <Compile Include="StringBuilderOutputWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Creation\CastleDynamicProxy\DynamicProxyResources.resx">

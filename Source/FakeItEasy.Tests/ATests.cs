@@ -16,12 +16,21 @@
         : ConfigurableServiceLocatorTestBase
     {
         private IFakeCreatorFacade fakeCreator;
+        private IDisposable scope;
 
         protected override void OnSetUp()
         {
             this.fakeCreator = A.Fake<IFakeCreatorFacade>();
-
+            
             this.StubResolve<IFakeCreatorFacade>(this.fakeCreator);
+            
+            this.scope = Fake.CreateScope();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.scope.Dispose();
         }
 
         [Test]
@@ -43,7 +52,7 @@
         {
             // Arrange
             var fake = A.Fake<IFoo>();
-            A.CallTo(() => this.fakeCreator.CreateFake<IFoo>(A<Action<IFakeOptionsBuilder<IFoo>>>.Ignored)).Returns(fake);
+            A.CallTo(() => this.fakeCreator.CreateFake<IFoo>(A<Action<IFakeOptionsBuilder<IFoo>>>._)).Returns(fake);
 
 
             // Act
@@ -188,10 +197,42 @@
             Assert.That(result.ToString(), Is.EqualTo("<Ignored>"));
         }
 
+        [Test]
+        public void Underscore_should_return_validator_that_passes_any_argument(
+            [Values(null, "", "hello world", "foo")] string argument)
+        {
+            // Arrange
+
+            // Act
+            var isValid = GetUnderscoreConstraint<string>().IsValid(argument);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        [Test]
+        public void Underscore_should_return_validator_with_correct_description()
+        {
+            // Arrange
+            var result = new StringBuilder();
+
+            // Act
+            GetUnderscoreConstraint<string>().WriteDescription(new StringBuilderOutputWriter(result));
+
+            // Assert
+            Assert.That(result.ToString(), Is.EqualTo("<Ignored>"));
+        }
+
         private static IArgumentConstraint GetIgnoredConstraint<T>()
         {
             var trap = ServiceLocator.Current.Resolve<IArgumentConstraintTrapper>();
             return trap.TrapConstraints(() => { var ignored = A<string>.Ignored; }).Single();
+        }
+
+        private static IArgumentConstraint GetUnderscoreConstraint<T>()
+        {
+            var trap = ServiceLocator.Current.Resolve<IArgumentConstraintTrapper>();
+            return trap.TrapConstraints(() => { var ignored = A<string>._; }).Single();
         }
     }
 }

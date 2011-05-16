@@ -7,7 +7,7 @@ namespace FakeItEasy.Tests
     using FakeItEasy.Expressions;
     using NUnit.Framework;
 
-    public abstract class ArgumentConstraintTestBase
+    internal abstract class ArgumentConstraintTestBase
     {
         protected internal IArgumentConstraint constraintField;
         
@@ -48,11 +48,11 @@ namespace FakeItEasy.Tests
 
             this.Constraint.WriteDescription(new StringBuilderOutputWriter(output));
 
-            Assert.That(output.ToString(), Is.EqualTo("<" + this.ExpectedDescription + ">"));
+                Assert.That(output.ToString(), Is.EqualTo("<" + this.ExpectedDescription + ">"));
         }
     }
 
-    public abstract class ArgumentConstraintTestBase<T>
+    internal abstract class ArgumentConstraintTestBase<T>
         : ArgumentConstraintTestBase
     {
         [SetUp]
@@ -69,5 +69,4 @@ namespace FakeItEasy.Tests
        
         protected abstract void CreateConstraint(IArgumentConstraintManager<T> scope);
     }
-
 }

@@ -392,7 +392,7 @@
             this.builder.MustHaveHappened(Repeated.Exactly.Times(99));
 
             // Assert
-            A.CallTo(() => this.asserter.AssertWasCalled(A<Func<IFakeObjectCall, bool>>.Ignored, "call description", A<Func<int, bool>>.That.Matches(x => x.Invoke(99)), "exactly 99 times")).MustHaveHappened();
+            A.CallTo(() => this.asserter.AssertWasCalled(A<Func<IFakeObjectCall, bool>>._, "call description", A<Func<int, bool>>.That.Matches(x => x.Invoke(99)), "exactly 99 times")).MustHaveHappened();
         }
 
         [Test]
@@ -419,7 +419,7 @@
             returnConfig.MustHaveHappened(Repeated.Exactly.Times(99));
 
             // Assert
-            A.CallTo(() => this.asserter.AssertWasCalled(A<Func<IFakeObjectCall, bool>>.Ignored, "call description", A<Func<int, bool>>.That.Matches(x => x.Invoke(99)), "exactly 99 times")).MustHaveHappened();
+            A.CallTo(() => this.asserter.AssertWasCalled(A<Func<IFakeObjectCall, bool>>._, "call description", A<Func<int, bool>>.That.Matches(x => x.Invoke(99)), "exactly 99 times")).MustHaveHappened();
         }
 
         [Test]
@@ -434,6 +434,34 @@
 
             // Assert
             Assert.That(this.fakeManager.Rules, Is.Empty);
+        }
+
+        [Test]
+        public void Where_should_apply_where_predicate_to_built_rule()
+        {
+            // Arrange
+            Func<IFakeObjectCall, bool> predicate = x => true;
+            Action<IOutputWriter> writer = x => { };
+
+            var returnConfig = new RuleBuilder.ReturnValueConfiguration<int>() { ParentConfiguration = this.builder };
+
+            // Act
+            returnConfig.Where(predicate, writer);
+            
+            // Assert
+            A.CallTo(() => this.ruleProducedByFactory.ApplyWherePredicate(predicate, writer)).MustHaveHappened();
+        }
+
+        [Test]
+        public void Where_should_return_the_configuration_object()
+        {
+            // Arrange
+            var returnConfig = new RuleBuilder.ReturnValueConfiguration<int>() { ParentConfiguration = this.builder };
+
+            // Act
+
+            // Assert
+            Assert.That(returnConfig.Where(x => true, x => { }), Is.SameAs(returnConfig));
         }
 
         private RuleBuilder.ReturnValueConfiguration<int> CreateTestableReturnConfiguration()

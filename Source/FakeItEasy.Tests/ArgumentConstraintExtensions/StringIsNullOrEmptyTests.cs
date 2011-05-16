@@ -6,7 +6,7 @@ using FakeItEasy.Tests;
 namespace FakeItEasy.Tests.ArgumentValidationExtensions
 {
     [TestFixture]
-    public class StringIsNullOrEmptyTests
+    internal class StringIsNullOrEmptyTests
         : ArgumentConstraintTestBase<string>
     {
         protected override IEnumerable<object> InvalidValues
@@ -21,7 +21,7 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
 
         protected override string ExpectedDescription
         {
-            get { return "(NULL or string.Empty)"; }
+            get { return "NULL or string.Empty"; }
         }
 
         protected override void CreateConstraint(IArgumentConstraintManager<string> scope)

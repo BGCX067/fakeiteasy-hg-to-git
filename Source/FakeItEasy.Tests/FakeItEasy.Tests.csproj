@@ -73,11 +73,13 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" />
     <Compile Include="..\VersionAssemblyInfo.cs" />
+    <Compile Include="ActionOverWriterValueFormatter.cs" />
     <Compile Include="AnyTests.cs" />
     <Compile Include="ArgumentConstraintExtensions\CollectionContainsTests.cs" />
     <Compile Include="ArgumentConstraintExtensions\CollectionIsEmptyTests.cs" />
     <Compile Include="ArgumentConstraintExtensions\EqualToConstraintTests.cs" />
     <Compile Include="ArgumentConstraintExtensions\IsSameSequenceAsTests.cs" />
+    <Compile Include="ArgumentConstraintExtensions\NullCheckedMatchesConstraint.cs" />
     <Compile Include="Configuration\DefaultInterceptionAsserterTests.cs" />
     <Compile Include="Core\ArgumentConstraintTrapTests.cs" />
     <Compile Include="Core\ArgumentValueFormatterTests.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Ignore.cs" />
     <Compile Include="IsProxyConstraint.cs" />
     <Compile Include="LambdaExpressionDummyDefinition.cs" />
+    <Compile Include="OutputWriterTests.cs" />
     <Compile Include="RepeatedTests.cs" />
     <Compile Include="RecordersTests.cs" />
     <Compile Include="SelfInitializedFakes\CallDataTests.cs" />

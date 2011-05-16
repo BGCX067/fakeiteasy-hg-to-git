@@ -4,10 +4,10 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
     using NUnit.Framework;
 
     [TestFixture]
-    public class CollectionContainsTests
+    internal class CollectionContainsTests
         : ArgumentConstraintTestBase<IEnumerable<object>>
     {
-        protected override void CreateConstraint(FakeItEasy.Core.IArgumentConstraintManager<IEnumerable<object>> scope)
+        protected override void CreateConstraint(IArgumentConstraintManager<IEnumerable<object>> scope)
         {
             scope.Contains(10);
         }
@@ -16,6 +16,7 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
         {
             get
             {
+                yield return null;
                 yield return new object[] { };
                 yield return new object[] { null };
                 yield return new object[] { 1, 2, 3, "foo", "bar" };

@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using NUnit.Framework;
-
 namespace FakeItEasy.Tests.ArgumentValidationExtensions
 {
+    using System.Collections.Generic;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class StringStartsWithTests
+    internal class StringStartsWithTests
         : ArgumentConstraintTestBase<string>
     {
         protected override IEnumerable<object> InvalidValues
@@ -19,10 +19,10 @@ namespace FakeItEasy.Tests.ArgumentValidationExtensions
 
         protected override string ExpectedDescription
         {
-            get { return "String that starts with \"abc\""; }
+            get { return "string that starts with \"abc\""; }
         }
 
-        protected override void CreateConstraint(FakeItEasy.Core.IArgumentConstraintManager<string> scope)
+        protected override void CreateConstraint(IArgumentConstraintManager<string> scope)
         {
             scope.StartsWith("abc");
         }

@@ -1,3 +1,3 @@
 FakeItEasy has moved to:
 
-https://github.com/patrik-hagne/FakeItEasy
+https://github.com/FakeItEasy/FakeItEasy
